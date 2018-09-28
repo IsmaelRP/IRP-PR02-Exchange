@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Exchange</string>
-    <string name="lbl_tittle">Exchange</string>
+    <string name="lbl_amount">Amount</string>
+    <string name="txt_amount">0.00</string>
+    <string name="lbl_from">From currency</string>
+    <string name="rbEuro">Euro</string>
+    <string name="rbDollar">Dollar</string>
+    <string name="rbPound">Pound</string>
 </resources>
