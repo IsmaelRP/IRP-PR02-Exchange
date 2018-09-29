@@ -6,4 +6,8 @@
     <string name="rbEuro">Euro</string>
     <string name="rbDollar">Dollar</string>
     <string name="rbPound">Pound</string>
+    <string name="lblTo">To currency</string>
+    <string name="btn_exchange">EXCHANGE</string>
+    <string name="error_overflow">The number is too long</string>
+    <string name="amount_matches">\\d+(\\.\\d+)?</string>
 </resources>

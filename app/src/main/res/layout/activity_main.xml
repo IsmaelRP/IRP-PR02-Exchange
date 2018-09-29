@@ -12,7 +12,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/lbl_amount"
                 android:layout_marginTop="17dp"
-                android:layout_marginLeft="17dp"
+                android:layout_marginStart="17dp"
                 android:textSize="15sp" />
 
 
@@ -33,33 +33,36 @@
                 android:layout_height="wrap_content"
                 android:text="@string/lbl_from"
                 android:layout_marginTop="17dp"
-                android:layout_marginLeft="17dp"
+                android:layout_marginStart="17dp"
                 android:textSize="15sp" />
 
             <RadioGroup
-                android:id="@+id/rdGroup"
+                android:id="@+id/rdGroupFrom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <RadioButton
-                    android:id="@+id/rbToEuro"
+                    android:id="@+id/rbFromEuro"
                     android:layout_margin="18dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
-                    android:text="@string/rbEuro"/>
+                    android:text="@string/rbEuro"
+                    android:checked="true"/>
 
                 <RadioButton
-                    android:id="@+id/rbToDollar"
+                    android:id="@+id/rbFromDollar"
                     android:layout_margin="18dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="15sp"
-                    android:text="@string/rbDollar"/>
+                    android:text="@string/rbDollar"
+                    android:enabled="false"
+                    />
 
                 <RadioButton
-                    android:id="@+id/rbToPound"
+                    android:id="@+id/rbFromPound"
                     android:layout_margin="18dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -67,11 +70,76 @@
                     android:text="@string/rbPound"/>
 
                 <ImageView
+                    android:id="@+id/imgFrom"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:src="@drawable/ic_euro"
+                    android:layout_margin="18dp"
+                    android:minWidth="17pt"
+                    android:minHeight="17pt"
                     />
 
-
             </RadioGroup>
+
+    <TextView
+        android:id="@+id/lblTo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lblTo"
+        android:layout_marginTop="17dp"
+        android:layout_marginStart="17dp"
+        android:textSize="15sp" />
+
+    <RadioGroup
+        android:id="@+id/rdGroupTo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rbToEuro"
+            android:layout_margin="18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="@string/rbEuro"
+            android:enabled="false"/>
+
+        <RadioButton
+            android:id="@+id/rbToDollar"
+            android:layout_margin="18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="@string/rbDollar"
+            android:checked="true" />
+
+        <RadioButton
+            android:id="@+id/rbToPound"
+            android:layout_margin="18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:text="@string/rbPound"/>
+
+        <ImageView
+            android:id="@+id/imgTo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_dollar"
+            android:layout_margin="18dp"
+            android:minWidth="17pt"
+            android:minHeight="17pt"
+            />
+
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btn_exchange"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_exchange"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="15dp"/>
 
         </LinearLayout>
