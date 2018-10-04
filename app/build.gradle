@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 
-// HE HECHO Refactor -> Migrate to AndroidX
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -17,13 +16,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    // AÑADO ESTAS LÍNEAS PARA COMPATIBILIDAD CON JAVA 8.
+
     compileOptions {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
     }
     dataBinding{
-        enabled = true;
+        enabled = true
     }
 }
 
@@ -34,6 +33,5 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
-    // AÑADO ESTA DEPENDENCIA PARA LOS TESTS
     androidTestImplementation 'androidx.test:rules:1.1.0-alpha4'
 }

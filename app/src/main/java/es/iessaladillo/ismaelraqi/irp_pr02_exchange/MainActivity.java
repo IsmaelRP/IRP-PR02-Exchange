@@ -11,9 +11,9 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-
 
     private EditText txtAmount;
     private RadioButton rbFromEuro;
@@ -24,9 +24,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RadioButton rbToPound;
     private ImageView imgFrom;
     private ImageView imgTo;
-    private Button btnExchange;
     private RadioGroup rdGroupFrom;
     private RadioGroup rdGroupTo;
+
+    static final double EURO_DOLLAR = 1.77;
+    static final double EURO_POUND = 0.88;
+
+    static final double DOLLAR_EURO = 0.86;
+    static final double DOLLAR_POUND = 0.77;
+
+    static final double POUND_EURO = 1.13;
+    static final double POUND_DOLLAR = 1.32;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,178 +43,143 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initViews();
     }
 
-    protected void initViews(){
-        // Para poner "RequiresViewById" tiene que ejecutarse en una versión 28 (actual 21)
-        // POR ESO DEBES USAR ActivityCompat.requireViewById QUE ES QUIEN TE DA LA COMPATIBILDIAD
-        // CON VERSIONES ANTERIORES.
-        txtAmount = findViewById(R.id.txtAmount);
+    protected void initViews() {
 
-        rdGroupFrom = findViewById(R.id.rdGroupFrom);
-        rbFromEuro = findViewById(R.id.rbFromEuro);
-        rbFromDollar = findViewById(R.id.rbFromDollar);
-        rbFromPound = findViewById(R.id.rbFromPound);
+        Button btnExchange;
 
-        rdGroupTo = findViewById(R.id.rdGroupTo);
-        rbToEuro = findViewById(R.id.rbToEuro);
-        rbToDollar = findViewById(R.id.rbToDollar);
-        rbToPound = findViewById(R.id.rbToPound);
+        txtAmount = ActivityCompat.requireViewById(this, R.id.txtAmount);
 
-        imgFrom = findViewById(R.id.imgFrom);
-        imgTo = findViewById(R.id.imgTo);
+        rdGroupFrom = ActivityCompat.requireViewById(this, R.id.rdGroupFrom);
+        rbFromEuro = ActivityCompat.requireViewById(this, R.id.rbFromEuro);
+        rbFromDollar = ActivityCompat.requireViewById(this, R.id.rbFromDollar);
+        rbFromPound = ActivityCompat.requireViewById(this, R.id.rbFromPound);
 
-        btnExchange = findViewById(R.id.btnExchange);
+        rdGroupTo = ActivityCompat.requireViewById(this, R.id.rdGroupTo);
+        rbToEuro = ActivityCompat.requireViewById(this, R.id.rbToEuro);
+        rbToDollar = ActivityCompat.requireViewById(this, R.id.rbToDollar);
+        rbToPound = ActivityCompat.requireViewById(this, R.id.rbToPound);
 
-        // ¿POR QUÉ NO USAS LAMBDAS?
-        btnExchange.setOnClickListener(this);
-        txtAmount.setOnClickListener(this);
+        imgFrom = ActivityCompat.requireViewById(this, R.id.imgFrom);
+        imgTo = ActivityCompat.requireViewById(this, R.id.imgTo);
 
-        rbFromEuro.setOnClickListener(this);
-        rbFromDollar.setOnClickListener(this);
-        rbFromPound.setOnClickListener(this);
+        btnExchange = ActivityCompat.requireViewById(this, R.id.btnExchange);
 
-        rbToEuro.setOnClickListener(this);
-        rbToDollar.setOnClickListener(this);
-        rbToPound.setOnClickListener(this);
+        btnExchange.setOnClickListener(v -> exchange());
+        txtAmount.setOnClickListener(v -> txtAmount.selectAll());
 
-        // AÑADO ESTAS LÍNEAS PARA QUE PASE ALGUNOS TESTS. FÍJATE BIEN.
-        imgFrom.setTag(R.drawable.ic_euro);
-        imgTo.setTag(R.drawable.ic_dollar);
+        rbFromEuro.setOnClickListener(v -> {
+            rbToEuro.setEnabled(false);
+            rbToPound.setEnabled(true);
+            rbToDollar.setEnabled(true);
+            imgFrom.setImageResource(R.drawable.ic_euro);
+        });
+
+        rbFromDollar.setOnClickListener(v -> {
+            rbToEuro.setEnabled(true);
+            rbToPound.setEnabled(true);
+            rbToDollar.setEnabled(false);
+            imgFrom.setImageResource(R.drawable.ic_dollar);
+        });
+
+        rbFromPound.setOnClickListener(v -> {
+            rbToEuro.setEnabled(true);
+            rbToPound.setEnabled(false);
+            rbToDollar.setEnabled(true);
+            imgFrom.setImageResource(R.drawable.ic_pound);
+        });
+
+        rbToEuro.setOnClickListener(v -> {
+            rbFromEuro.setEnabled(false);
+            rbFromPound.setEnabled(true);
+            rbFromDollar.setEnabled(true);
+            imgTo.setImageResource(R.drawable.ic_euro);
+        });
+
+        rbToDollar.setOnClickListener(v -> {
+            rbFromEuro.setEnabled(true);
+            rbFromPound.setEnabled(true);
+            rbFromDollar.setEnabled(false);
+            imgTo.setImageResource(R.drawable.ic_dollar);
+        });
+
+        rbToPound.setOnClickListener(v -> {
+            rbFromEuro.setEnabled(true);
+            rbFromPound.setEnabled(false);
+            rbFromDollar.setEnabled(true);
+            imgTo.setImageResource(R.drawable.ic_pound);
+        });
     }
 
-    // ES MUCHO MÁS CÓMODO USAR LAMBDAS. EN TU CASO TIENES QUE ANDAR CREANDO IF ELSE IF.
     @Override
     public void onClick(View v) {
-        if (v.getId() == btnExchange.getId()){
-            if (txtAmount.getText().toString().isEmpty() || !txtAmount.getText().toString().matches(getString(R.string.amount_matches))){
-                txtAmount.setText("0.00");
 
-            }else{
-                exchange();
+    }
+
+    public void exchange() {
+        String message;
+
+        if (txtAmount.getText().toString().isEmpty() || !txtAmount.getText().toString().matches(getString(R.string.amount_matches))) {
+            txtAmount.setText(getString(R.string.txt_defaultValue));
+
+        } else {
+            if (rdGroupFrom.getCheckedRadioButtonId() == rbFromEuro.getId()) {
+                message = getFromEuro();
+
+            } else if (rdGroupFrom.getCheckedRadioButtonId() == rbFromDollar.getId()) {
+                message = getFromDollar();
+
+            } else {
+                message = getFromPound();
             }
-        }else if(v.getId() == txtAmount.getId()){
-            // ¡¡¡MUY BUENA IDEA!!!.
-            txtAmount.selectAll();
-        // TE RECOMIENDO QUE HAGAS Code -> Reformat Code PARA REFORMATEAR EL CÓDGIO Y QUEDE BONITO.
-        }else{
-            // EXTRAE CÓDIGO A OTROS MÉTODOS. TANTO CÓDIGO ANIDADO ES DIFÍCIL DE LEER.
-            if (v.getId() == rbFromEuro.getId()){
-                rbToEuro.setEnabled(false);
-                rbToPound.setEnabled(true);
-                rbToDollar.setEnabled(true);
-
-                imgFrom.setImageResource(R.drawable.ic_euro);
-                // AÑADO ESTA LÍNEA PARA QUE PASE ALGUNOS TEST.
-                imgFrom.setTag(R.drawable.ic_euro);
-
-            }else if (v.getId() == rbFromDollar.getId()){
-                rbToEuro.setEnabled(true);
-                rbToPound.setEnabled(true);
-                rbToDollar.setEnabled(false);
-
-                imgFrom.setImageResource(R.drawable.ic_dollar);
-                // AÑADO ESTA LÍNEA PARA QUE PASE ALGUNOS TEST.
-                imgFrom.setTag(R.drawable.ic_dollar);
-
-            }else if (v.getId() == rbFromPound.getId()){
-                rbToEuro.setEnabled(true);
-                rbToPound.setEnabled(false);
-                rbToDollar.setEnabled(true);
-
-                imgFrom.setImageResource(R.drawable.ic_pound);
-                // AÑADO ESTA LÍNEA PARA QUE PASE ALGUNOS TEST.
-                imgFrom.setTag(R.drawable.ic_pound);
-
-            }else if (v.getId() == rbToEuro.getId()){
-                rbFromEuro.setEnabled(false);
-                rbFromPound.setEnabled(true);
-                rbFromDollar.setEnabled(true);
-
-                imgTo.setImageResource(R.drawable.ic_euro);
-                // AÑADO ESTA LÍNEA PARA QUE PASE ALGUNOS TEST.
-                imgTo.setTag(R.drawable.ic_euro);
-
-            }else if (v.getId() == rbToDollar.getId()){
-                rbFromEuro.setEnabled(true);
-                rbFromPound.setEnabled(true);
-                rbFromDollar.setEnabled(false);
-
-                imgTo.setImageResource(R.drawable.ic_dollar);
-                // AÑADO ESTA LÍNEA PARA QUE PASE ALGUNOS TEST.
-                imgTo.setTag(R.drawable.ic_dollar);
-
-            }else if (v.getId() == rbToPound.getId()){
-                rbFromEuro.setEnabled(true);
-                rbFromPound.setEnabled(false);
-                rbFromDollar.setEnabled(true);
-
-                imgTo.setImageResource(R.drawable.ic_pound);
-                // AÑADO ESTA LÍNEA PARA QUE PASE ALGUNOS TEST.
-                imgTo.setTag(R.drawable.ic_pound);
-            }
+            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
         }
-    }
-
-    public void exchange(){
-        String message;
-        if (rdGroupFrom.getCheckedRadioButtonId() == rbFromEuro.getId()){
-            message = getFromEuro();
-
-        }else if(rdGroupFrom.getCheckedRadioButtonId() == rbFromDollar.getId()){
-            message = getFromDollar();
-
-        }else{
-            message = getFromPound();
-        }
-        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
     }
 
     @SuppressLint("DefaultLocale")
-    public String getFromEuro(){
-        // NO USES NÚMERO MÁGICOS EN EL CÓDIGO. DEFINE CONSTANTES.
-        double amount =  Double.parseDouble(txtAmount.getText().toString());
+    public String getFromEuro() {
+
+        double amount = Double.parseDouble(txtAmount.getText().toString());
         double result;
         String message;
-        // EN VEZ DE USAR String.format USA RECURSOS DE CADENA CON PARÁMETROS.
-        if (rdGroupTo.getCheckedRadioButtonId() == rbToDollar.getId()){
-            result = amount * 1.17;
-            // CAMBIO ESTA LÍNE PARA QUE PASE EL TEST.
-            message = String.format("%.2f € = %.2f $", amount, result);
-        }else{
-            result = amount * 0.88;
-            message = String.format("%.2f€ = %.2f£", amount, result);
+
+        if (rdGroupTo.getCheckedRadioButtonId() == rbToDollar.getId()) {
+            result = amount * EURO_DOLLAR;
+            message = getString(R.string.euro_dollar_string, amount, result);
+        } else {
+            result = amount * EURO_POUND;
+            message = getString(R.string.euro_pound_string, amount, result);
         }
         return message;
     }
 
     @SuppressLint("DefaultLocale")
-    public String getFromDollar(){
-        double amount =  Double.parseDouble(txtAmount.getText().toString());
+    public String getFromDollar() {
+        double amount = Double.parseDouble(txtAmount.getText().toString());
         double result;
         String message;
-        if (rdGroupTo.getCheckedRadioButtonId() == rbToEuro.getId()){
-            result = amount * 0.86;
-            message = String.format("%.2f$ = %.2f€", amount, result);
-        }else{
-            result = amount * 0.77;
-            message = String.format("%.2f$ = %.2f£", amount, result);
+        if (rdGroupTo.getCheckedRadioButtonId() == rbToEuro.getId()) {
+            result = amount * DOLLAR_EURO;
+            message = getString(R.string.dollar_euro_string, amount, result);
+        } else {
+            result = amount * DOLLAR_POUND;
+            message = getString(R.string.dollar_pound_string, amount, result);
         }
         return message;
     }
 
     @SuppressLint("DefaultLocale")
-    public String getFromPound(){
-        double amount =  Double.parseDouble(txtAmount.getText().toString());
+    public String getFromPound() {
+        double amount = Double.parseDouble(txtAmount.getText().toString());
         double result;
         String message;
 
-        if (rdGroupTo.getCheckedRadioButtonId() == rbToEuro.getId()){
-            result = amount * 1.13;
-            message = String.format("%.2f£ = %.2f€", amount, result);
-        }else{
-            result = amount * 1.32;
-            message = String.format("%.2f£ = %.2f$", amount, result);
+        if (rdGroupTo.getCheckedRadioButtonId() == rbToEuro.getId()) {
+            result = amount * POUND_EURO;
+            message = getString(R.string.pound_euro_string, amount, result);
+        } else {
+            result = amount * POUND_DOLLAR;
+            message = getString(R.string.pound_dollar_string, amount, result);
         }
         return message;
     }
-
 }

@@ -1,100 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-    <!-- TE RECOMIENDO QUE USES Code -> Reformat code PARA DEJAR EL CÓDIGO BIEN ALINEADO -->
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            xmlns:android="http://schemas.android.com/apk/res/android">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-        <!-- NO USES LITERALES DE TAMAÑO. DEFINE RECURSOS DE DIMENSIÓN. -->
-        <!-- EL TEXTO DEBERÍA SELECCIONARSE AUTOMÁTICAMENTE CON EL FOCO
-             USA android:selectAllOnFocus -->
-            <TextView
-                android:id="@+id/lblAmount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/lbl_amount"
-                android:layout_marginTop="17dp"
-                android:layout_marginStart="17dp"
-                android:textSize="15sp" />
+    <TextView
+        android:id="@+id/lblAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_lbl"
+        android:layout_marginTop="@dimen/margin_lbl"
+        android:text="@string/lbl_amount"
+        android:textSize="@dimen/textSize_lbl" />
 
-        <!-- USA SIEMPRE End EN VEZ DE Right, Y Start EN VEZ DE Left, TANTO EN LOS
-             VALORES DE LAS PROPIEDADES COMO EN LOS NOMBRES DE LOS ATRIBUTOS.
-             POR EJEMPLO android:gravity="end" o android:paddingStart="@dimen/main_margin" -->
-            <EditText
-                android:id="@+id/txtAmount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                android:inputType="numberDecimal"
-                android:textSize="30sp"
-                android:layout_marginLeft="13dp"
-                android:layout_marginRight="13dp"
-                android:text="@string/txt_amount"/>
+    <EditText
+        android:id="@+id/txtAmount"
+        android:selectAllOnFocus="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_txt"
+        android:layout_marginEnd="@dimen/margin_txt"
+        android:gravity="end"
+        android:inputType="numberDecimal"
+        android:text="@string/txt_amount"
+        android:textSize="@dimen/textSize_txt" />
 
-            <TextView
-                android:id="@+id/lblFrom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/lbl_from"
-                android:layout_marginTop="17dp"
-                android:layout_marginStart="17dp"
-                android:textSize="15sp" />
+    <TextView
+        android:id="@+id/lblFrom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_lbl"
+        android:layout_marginTop="@dimen/margin_lbl"
+        android:text="@string/lbl_from"
+        android:textSize="@dimen/textSize_lbl" />
 
-            <RadioGroup
-                android:id="@+id/rdGroupFrom"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+    <RadioGroup
+        android:id="@+id/rdGroupFrom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-                <RadioButton
-                    android:id="@+id/rbFromEuro"
-                    android:layout_margin="18dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:text="@string/rbEuro"
-                    android:checked="true"/>
+        <RadioButton
+            android:id="@+id/rbFromEuro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_rb_img"
+            android:checked="true"
+            android:text="@string/rbEuro"
+            android:textSize="@dimen/textSize_rb" />
 
-                <RadioButton
-                    android:id="@+id/rbFromDollar"
-                    android:layout_margin="18dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:text="@string/rbDollar"
-                    android:enabled="false"
-                    />
+        <RadioButton
+            android:id="@+id/rbFromDollar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_rb_img"
+            android:enabled="false"
+            android:text="@string/rbDollar"
+            android:textSize="@dimen/textSize_rb" />
 
-                <RadioButton
-                    android:id="@+id/rbFromPound"
-                    android:layout_margin="18dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15sp"
-                    android:text="@string/rbPound"/>
+        <RadioButton
+            android:id="@+id/rbFromPound"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_rb_img"
+            android:text="@string/rbPound"
+            android:textSize="@dimen/textSize_rb" />
 
-                <ImageView
-                    android:id="@+id/imgFrom"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_euro"
-                    android:layout_margin="18dp"
-                    android:minWidth="17pt"
-                    android:minHeight="17pt"
-                    />
+        <ImageView
+            android:id="@+id/imgFrom"
+            android:contentDescription="@string/imgFrom_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_rb_img"
+            android:minWidth="@dimen/min_img"
+            android:minHeight="@dimen/min_img"
+            android:src="@drawable/ic_euro" />
 
-            </RadioGroup>
+    </RadioGroup>
 
     <TextView
         android:id="@+id/lblTo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_lbl"
+        android:layout_marginTop="@dimen/margin_lbl"
         android:text="@string/lblTo"
-        android:layout_marginTop="17dp"
-        android:layout_marginStart="17dp"
-        android:textSize="15sp" />
+        android:textSize="@dimen/textSize_lbl" />
 
     <RadioGroup
         android:id="@+id/rdGroupTo"
@@ -104,54 +96,49 @@
 
         <RadioButton
             android:id="@+id/rbToEuro"
-            android:layout_margin="18dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
+            android:layout_margin="@dimen/margin_rb_img"
+            android:enabled="false"
             android:text="@string/rbEuro"
-            android:enabled="false"/>
+            android:textSize="@dimen/textSize_rb" />
 
         <RadioButton
             android:id="@+id/rbToDollar"
-            android:layout_margin="18dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
+            android:layout_margin="@dimen/margin_rb_img"
+            android:checked="true"
             android:text="@string/rbDollar"
-            android:checked="true" />
+            android:textSize="@dimen/textSize_rb" />
 
         <RadioButton
             android:id="@+id/rbToPound"
-            android:layout_margin="18dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:text="@string/rbPound"/>
+            android:layout_margin="@dimen/margin_rb_img"
+            android:text="@string/rbPound"
+            android:textSize="@dimen/textSize_rb" />
 
-        <!-- SIEMPRE QUE USES UN ImageView DEFÍNELE UN ATRIBUTO android:contentDescription CON
-             LA DESCRIPCIÓN TEXTUAL DE LA IMAGEN MOSTRADA POR EL ImageView -->
         <ImageView
             android:id="@+id/imgTo"
+            android:contentDescription="@string/imgTo_description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_dollar"
-            android:layout_margin="18dp"
-            android:minWidth="17pt"
-            android:minHeight="17pt"
-            />
+            android:layout_margin="@dimen/margin_rb_img"
+            android:minWidth="@dimen/min_img"
+            android:minHeight="@dimen/min_img"
+            android:src="@drawable/ic_dollar" />
 
     </RadioGroup>
 
-    <!-- CAMBIO EL ID DEL BOTÓN PARA QUE SEA COMPATIBLE CON LOS TESTS. FÍJATE -->
-    <!-- NORMALMENTE NO SE DEFINEN LOS VALORES DE LOS RECURSOS DE CADENA EN MAYÚSCULAS.
-         PUEDES USAR android:textAllCaps="true" PARA FORZAR A QUE EL TEXTO APAREZCA
-         COMPLETAMENTE EN MAYÚSCULAS -->
     <Button
         android:id="@+id/btnExchange"
+        android:textAllCaps="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/btn_exchange"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="15dp"/>
+        android:layout_margin="@dimen/margin_btn"
+        android:text="@string/btn_exchange" />
 
-        </LinearLayout>
+</LinearLayout>

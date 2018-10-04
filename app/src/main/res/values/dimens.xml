@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_lbl">17dp</dimen>
+    <dimen name="textSize_lbl">15sp</dimen>
+    <dimen name="margin_txt">13dp</dimen>
+    <dimen name="textSize_txt">30sp</dimen>
+    <dimen name="margin_rb_img">18dp</dimen>
+    <dimen name="textSize_rb">15sp</dimen>
+    <dimen name="margin_btn">15dp</dimen>
+    <dimen name="min_img">17pt</dimen>
+</resources>
