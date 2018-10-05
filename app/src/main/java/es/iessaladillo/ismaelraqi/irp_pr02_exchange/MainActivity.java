@@ -2,7 +2,8 @@ package es.iessaladillo.ismaelraqi.irp_pr02_exchange;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.view.View;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -10,10 +11,14 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import es.iessaladillo.ismaelraqi.irp_pr02_exchange.Utils.KeyboardUtils;
+import es.iessaladillo.ismaelraqi.irp_pr02_exchange.Utils.SnackbarUtils;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
 
     private EditText txtAmount;
     private RadioButton rbFromEuro;
@@ -27,14 +32,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RadioGroup rdGroupFrom;
     private RadioGroup rdGroupTo;
 
-    static final double EURO_DOLLAR = 1.77;
-    static final double EURO_POUND = 0.88;
+    private static final double EURO_DOLLAR = 1.77;
+    private static final double EURO_POUND = 0.88;
 
-    static final double DOLLAR_EURO = 0.86;
-    static final double DOLLAR_POUND = 0.77;
+    private static final double DOLLAR_EURO = 0.86;
+    private static final double DOLLAR_POUND = 0.77;
 
-    static final double POUND_EURO = 1.13;
-    static final double POUND_DOLLAR = 1.32;
+    private static final double POUND_EURO = 1.13;
+    private static final double POUND_DOLLAR = 1.32;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,11 +48,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         initViews();
     }
 
-    protected void initViews() {
+    private void initViews() {
 
         Button btnExchange;
 
         txtAmount = ActivityCompat.requireViewById(this, R.id.txtAmount);
+
+        txtAmount.addTextChangedListener(new TextWatcher()  {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s)  {
+                if (txtAmount.getText().toString().length() <= 0) {
+                    txtAmount.setError("You have to specify a number");
+                } else {
+                    txtAmount.setError(null);
+                }
+            }
+        });
 
         rdGroupFrom = ActivityCompat.requireViewById(this, R.id.rdGroupFrom);
         rbFromEuro = ActivityCompat.requireViewById(this, R.id.rbFromEuro);
@@ -110,13 +135,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
-
-    public void exchange() {
+    private void exchange() {
         String message;
+        KeyboardUtils.HideKeyboard(this);
 
         if (txtAmount.getText().toString().isEmpty() || !txtAmount.getText().toString().matches(getString(R.string.amount_matches))) {
             txtAmount.setText(getString(R.string.txt_defaultValue));
@@ -131,12 +152,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else {
                 message = getFromPound();
             }
-            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
+            SnackbarUtils.snackbar(this.getCurrentFocus(), message, Snackbar.LENGTH_LONG);
         }
     }
 
     @SuppressLint("DefaultLocale")
-    public String getFromEuro() {
+    private String getFromEuro() {
 
         double amount = Double.parseDouble(txtAmount.getText().toString());
         double result;
@@ -153,7 +175,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @SuppressLint("DefaultLocale")
-    public String getFromDollar() {
+    private String getFromDollar() {
         double amount = Double.parseDouble(txtAmount.getText().toString());
         double result;
         String message;
@@ -168,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @SuppressLint("DefaultLocale")
-    public String getFromPound() {
+    private String getFromPound() {
         double amount = Double.parseDouble(txtAmount.getText().toString());
         double result;
         String message;

@@ -8,7 +8,6 @@
     <string name="rbPound">Pound</string>
     <string name="lblTo">To currency</string>
     <string name="btn_exchange">Exchange</string>
-    <string name="error_overflow">The number is too long</string>
     <string name="amount_matches">\\d+(\\.\\d+)?</string>
     <string name="imgTo_description">This ImageView will show the image of the currency that has been converted.</string>
     <string name="imgFrom_description">This ImageView will show the image of the currency that is going to be converted.</string>
